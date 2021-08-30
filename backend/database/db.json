@@ -1,1 +1,42 @@
-{}
+{
+  "invoices": [
+    {
+      "invoiceDate": "2021-10-12",
+      "invoiceNumber": "INV00003",
+      "uuid": "18081c4c-c287-4c5c-b301-61fb92c64bdc",
+      "items": [
+        {
+          "uuid": "9d75fc96-d505-4a92-8612-52f283ac0b08",
+          "price": 10.21,
+          "quantity": 4,
+          "description": "Banana"
+        },
+        {
+          "uuid": "6a35c347-1790-4f13-b2b6-552c77818c4e",
+          "price": 5.21,
+          "quantity": 1,
+          "description": "Orange"
+        }
+      ]
+    },
+    {
+      "invoiceDate": "2021-10-12",
+      "invoiceNumber": "INV00003",
+      "uuid": "7dcc7942-b005-4dba-88ce-aeb1981cee3a",
+      "items": [
+        {
+          "uuid": "fe19822c-c843-450b-aa27-84edba203110",
+          "price": 10.21,
+          "quantity": 4,
+          "description": "Banana"
+        },
+        {
+          "uuid": "f25feb4d-346e-4620-acb2-f253ea4d54ab",
+          "price": 5.21,
+          "quantity": 1,
+          "description": "Orange"
+        }
+      ]
+    }
+  ]
+}

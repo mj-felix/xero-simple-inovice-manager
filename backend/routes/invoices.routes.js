@@ -1,6 +1,7 @@
 import express from 'express';
 
 import invoiceController from '../controllers/invoice.controller.js';
+import { checkInvoiceExists } from '../middleware/invoice.middleware.js';
 
 const router = express.Router();
 
@@ -9,9 +10,9 @@ router.route('/')
     .post(invoiceController.createInvoice);
 
 router.route('/:invoiceId')
-    .get(invoiceController.fetchInvoice)
-    .post(invoiceController.cloneInvoice)
-    .put(invoiceController.updateInvoice)
-    .delete(invoiceController.deleteInvoice);
+    .get(checkInvoiceExists, invoiceController.fetchInvoice)
+    .post(checkInvoiceExists, invoiceController.cloneInvoice)
+    .put(checkInvoiceExists, invoiceController.updateInvoice)
+    .delete(checkInvoiceExists, invoiceController.deleteInvoice);
 
 export default router;
