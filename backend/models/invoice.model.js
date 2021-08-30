@@ -68,30 +68,51 @@ class Invoice {
     }
 
     // node 14.16
-    // [util.inspect.custom](depth, opts) {
-    //     // nice printout of invoice
-    //     return '' + this.invoiceNumber;
-    // };
+    [util.inspect.custom](depth, opts) {
+        // nice printout of invoice ;-)
+        let printedInvoice = '';
+        return printedInvoice;
+    };
 
     getTotalValue() {
         return parseFloat(this.items.reduce((accumulator, item) => (accumulator + (item.price * item.quantity)), 0).toFixed(2));
     };
 
-    static async merge(uuids) {
+    // if (overwrite) then invoices are merged into the first one and remaining ones are deleted - code should be refactored - only POC
+    static async merge(uuids, overwrite) {
         let invoiceNumber = 'Merged invoice numbers: ';
+        let firstInvoice;
         const items = [];
         for (const uuid of uuids) {
             const existingInvoice = await Invoice.findOne(uuid);
+            if (overwrite && !firstInvoice) {
+                firstInvoice = existingInvoice;
+            }
             invoiceNumber += existingInvoice.invoiceNumber + ' ';
             existingInvoice.items.forEach(item => {
-                items.push(new Item(item.price, item.quantity, item.description));
+                if (overwrite && firstInvoice === existingInvoice) {
+                    items.push(new Item(item.price, item.quantity, item.description, item.uuid));
+                } else {
+                    items.push(new Item(item.price, item.quantity, item.description));
+                }
             });
+            if (overwrite && firstInvoice !== existingInvoice) {
+                await Invoice.destroy(existingInvoice.uuid);
+            }
         }
         invoiceNumber = invoiceNumber.trim();
-        const mergedInvoice = new Invoice(undefined, invoiceNumber, items);
-        await mergedInvoice.save();
-        mergedInvoice.totalValue = mergedInvoice.getTotalValue();
-        return mergedInvoice;
+        if (overwrite && firstInvoice) {
+            firstInvoice.invoiceNumber = `${firstInvoice.invoiceNumber} (${invoiceNumber})`;
+            firstInvoice.items = items;
+            firstInvoice.save();
+            firstInvoice.totalValue = firstInvoice.getTotalValue();
+            return firstInvoice;
+        } else {
+            const mergedInvoice = new Invoice(undefined, invoiceNumber, items);
+            await mergedInvoice.save();
+            mergedInvoice.totalValue = mergedInvoice.getTotalValue();
+            return mergedInvoice;
+        }
     }
 
     async addItem(item) {
@@ -107,4 +128,4 @@ class Invoice {
 
 }
 
-export default Invoice;
+export default Invoice;;

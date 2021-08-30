@@ -17,7 +17,13 @@ const checkInvoiceExists = asyncHandler(async (req, res, next) => {
         }
     }
 
-    if (invoiceIds.length > 1) req.invoiceIds = invoiceIds;
+    if (invoiceIds.length > 1) {
+        req.invoiceIds = invoiceIds;
+        const { overwrite } = req.query;
+        if (overwrite) {
+            req.overwrite = overwrite;
+        }
+    }
     else {
         req.invoice = existingInvoice;
     }

@@ -20,7 +20,8 @@ const fetchInvoice = asyncHandler(async (req, res) => {
 
 const cloneOrMergeInvoices = asyncHandler(async (req, res) => {
     if (req.invoiceIds) {
-        const mergedInvoice = await Invoice.merge(req.invoiceIds);
+        console.log(req.overwrite);
+        const mergedInvoice = await Invoice.merge(req.invoiceIds, req.overwrite);
         res.status(201).json(mergedInvoice);
     } else {
         const newInvoice = await Invoice.clone(req.invoice);
