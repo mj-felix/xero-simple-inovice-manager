@@ -20,11 +20,15 @@ const fetchInvoice = asyncHandler(async (req, res) => {
     res.json(fetchedInvoice);
 });
 
-const cloneInvoice = asyncHandler(async (req, res) => {
-    const { invoiceId } = req.params;
-    const existingInvoice = await Invoice.findOne(invoiceId);
-    const newInvoice = await Invoice.clone(existingInvoice);
-    res.status(201).json(newInvoice);
+const cloneOrMergeInvoices = asyncHandler(async (req, res) => {
+    if (req.invoiceIds) {
+        const mergedInvoice = await Invoice.merge(req.invoiceIds);
+        res.status(201).json(mergedInvoice);
+    } else {
+        const { invoiceId } = req.params;
+        const newInvoice = await Invoice.clone(invoiceId);
+        res.status(201).json(newInvoice);
+    }
 });
 
 const updateInvoice = asyncHandler(async (req, res) => {
@@ -44,4 +48,4 @@ const deleteInvoice = asyncHandler(async (req, res) => {
     res.status(204).send();
 });
 
-export default { fetchInvoices, createInvoice, fetchInvoice, cloneInvoice, updateInvoice, deleteInvoice };
+export default { fetchInvoices, createInvoice, fetchInvoice, cloneOrMergeInvoices, updateInvoice, deleteInvoice };

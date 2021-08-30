@@ -11,7 +11,7 @@ router.route('/')
 
 router.route('/:invoiceId')
     .get(checkInvoiceExists, invoiceController.fetchInvoice)
-    .post(checkInvoiceExists, invoiceController.cloneInvoice)
+    .post(checkInvoiceExists, invoiceController.cloneOrMergeInvoices)
     .put(checkInvoiceExists, invoiceController.updateInvoice)
     .delete(checkInvoiceExists, invoiceController.deleteInvoice);
 

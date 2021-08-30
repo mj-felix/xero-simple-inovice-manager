@@ -5,7 +5,7 @@ import { db } from '../database/connection.js';
 import Item from './item.model.js';
 
 class Invoice {
-    constructor(invoiceDate = new Date(), invoiceNumber = "", items = [], uuid = uuidv4()) {
+    constructor(invoiceDate = new Date().toISOString().substring(0, 10), invoiceNumber = "", items = [], uuid = uuidv4()) {
         this.invoiceDate = invoiceDate;
         this.invoiceNumber = invoiceNumber;
         this.uuid = uuid;
@@ -56,11 +56,12 @@ class Invoice {
         await db.write();
     }
 
-    static async clone(invoice) {
+    static async clone(invoiceId) {
+        const existingInvoice = await Invoice.findOne(invoiceId);
         const clonedInvoice = new Invoice(
-            invoice.invoiceDate,
-            invoice.invoiceNumber,
-            invoice.items.map((item) => (new Item(item.price, item.quantity, item.description)))
+            existingInvoice.invoiceDate,
+            existingInvoice.invoiceNumber,
+            existingInvoice.items.map((item) => (new Item(item.price, item.quantity, item.description)))
         );
         await clonedInvoice.save();
         clonedInvoice.totalValue = clonedInvoice.getTotalValue();
@@ -77,6 +78,23 @@ class Invoice {
         return parseFloat(this.items.reduce((accumulator, item) => (accumulator + (item.price * item.quantity)), 0).toFixed(2));
     };
 
+    static async merge(uuids) {
+        let invoiceNumber = 'Merged invoice numbers: ';
+        const items = [];
+        for (const uuid of uuids) {
+            const existingInvoice = await Invoice.findOne(uuid);
+            invoiceNumber += existingInvoice.invoiceNumber + ' ';
+            existingInvoice.items.forEach(item => {
+                items.push(new Item(item.price, item.quantity, item.description));
+            });
+        }
+        invoiceNumber = invoiceNumber.trim();
+        const mergedInvoice = new Invoice(undefined, invoiceNumber, items);
+        await mergedInvoice.save();
+        mergedInvoice.totalValue = mergedInvoice.getTotalValue();
+        return mergedInvoice;
+    }
+
     // Adds a line to invoice
     addInvoiceLine(line) {
         this.lineItems.push(line);
@@ -86,12 +104,6 @@ class Invoice {
     removeInvoiceLine(id) {
         return null;
     };
-
-
-
-    mergeInvoices() {
-        return null;
-    }
 
 }
 
