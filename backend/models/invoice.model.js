@@ -56,11 +56,10 @@ class Invoice {
         await db.write();
     }
 
-    static async clone(invoiceId) {
-        const existingInvoice = await Invoice.findOne(invoiceId);
+    static async clone(existingInvoice) {
         const clonedInvoice = new Invoice(
             existingInvoice.invoiceDate,
-            existingInvoice.invoiceNumber,
+            'Cloned: ' + existingInvoice.invoiceNumber,
             existingInvoice.items.map((item) => (new Item(item.price, item.quantity, item.description)))
         );
         await clonedInvoice.save();

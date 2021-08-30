@@ -15,9 +15,7 @@ const createInvoice = asyncHandler(async (req, res) => {
 });
 
 const fetchInvoice = asyncHandler(async (req, res) => {
-    const { invoiceId } = req.params;
-    const fetchedInvoice = await Invoice.findOne(invoiceId);
-    res.json(fetchedInvoice);
+    res.json(req.invoice);
 });
 
 const cloneOrMergeInvoices = asyncHandler(async (req, res) => {
@@ -25,15 +23,13 @@ const cloneOrMergeInvoices = asyncHandler(async (req, res) => {
         const mergedInvoice = await Invoice.merge(req.invoiceIds);
         res.status(201).json(mergedInvoice);
     } else {
-        const { invoiceId } = req.params;
-        const newInvoice = await Invoice.clone(invoiceId);
+        const newInvoice = await Invoice.clone(req.invoice);
         res.status(201).json(newInvoice);
     }
 });
 
 const updateInvoice = asyncHandler(async (req, res) => {
-    const { invoiceId } = req.params;
-    const invoiceToUpdate = await Invoice.findOne(invoiceId);
+    const invoiceToUpdate = req.invoice;
     const { invoiceDate, invoiceNumber, items } = req.body;
     invoiceToUpdate.invoiceDate = invoiceDate;
     invoiceToUpdate.invoiceNumber = invoiceNumber;
@@ -43,8 +39,7 @@ const updateInvoice = asyncHandler(async (req, res) => {
 });
 
 const deleteInvoice = asyncHandler(async (req, res) => {
-    const { invoiceId } = req.params;
-    await Invoice.destroy(invoiceId);
+    await Invoice.destroy(req.invoice.uuid);
     res.status(204).send();
 });
 
