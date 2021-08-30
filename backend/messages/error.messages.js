@@ -6,6 +6,9 @@ export default {
         NOT_FOUND: 'Invoice not found'
     },
     item: {
-        NOT_FOUND: 'Item not found'
+        NOT_FOUND: 'Item not found',
+        PRICE_POSITIVE_NUMBER: 'Price must be a positive number',
+        QUANTITY_POSITIVE_INTEGER: 'Quantity must be a positive integer',
+        DESC_REQUIRED: 'Description must be provided'
     }
 }

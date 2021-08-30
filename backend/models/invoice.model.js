@@ -68,9 +68,8 @@ class Invoice {
         return clonedInvoice;
     }
 
-    // node 14.16
+    // node 14.16 - nice printout of invoice ;-)
     [util.inspect.custom](depth, opts) {
-        // nice printout of invoice ;-)
         let printedInvoice = '\n-------------------------------------------------\n'.yellow;
         printedInvoice += `Invoice Date:   ${this.invoiceDate.green}\n`;
         printedInvoice += `Invoice Number: ${this.invoiceNumber.green}\n`;
@@ -131,7 +130,6 @@ class Invoice {
         return await this.save();
     };
 
-    // Removes a line
     async removeItem(uuid) {
         this.items = this.items.filter((item) => (item.uuid !== uuid));
         return await this.save();
@@ -139,4 +137,4 @@ class Invoice {
 
 }
 
-export default Invoice;;
+export default Invoice;

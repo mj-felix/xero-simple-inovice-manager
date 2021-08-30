@@ -28,6 +28,30 @@
           "price": 5.21,
           "quantity": 1,
           "description": "Orange"
+        },
+        {
+          "uuid": "2fe28084-ea19-4575-b708-a60c18ffc73f",
+          "price": 10.21,
+          "quantity": 12,
+          "description": "Banana"
+        },
+        {
+          "uuid": "2b547a63-1e69-4b93-ba2b-a03a2f069bcf",
+          "price": 10.21,
+          "quantity": 12,
+          "description": ""
+        },
+        {
+          "uuid": "d04be690-b9f5-4fd6-83fc-4f56d2fc968c",
+          "price": 10.21,
+          "quantity": 12,
+          "description": ""
+        },
+        {
+          "uuid": "1af8e9ba-afe8-46af-900f-710e0ccecc90",
+          "price": 10,
+          "quantity": 12,
+          "description": "Banana"
         }
       ]
     },
