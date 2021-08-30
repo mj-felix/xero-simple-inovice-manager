@@ -3,6 +3,7 @@ import morgan from 'morgan';
 
 import { notFoundError, errorHandler } from './middleware/error.middleware.js';
 import routes from './routes/index.routes.js';
+import { connect } from './database/connection.js';
 
 const app = express();
 app.use(express.json());
@@ -23,6 +24,10 @@ app.use(notFoundError);
 app.use(errorHandler);
 
 const port = process.env.PORT || 5000;
-app.listen(port, () => {
+app.listen(port, async () => {
     console.log(`${new Date().toString()}: Server started on port ${port}`);
+    try {
+        await connect();
+        console.log(`${new Date().toString()}: Database connected`);
+    } catch (err) { console.log(err); }
 });
