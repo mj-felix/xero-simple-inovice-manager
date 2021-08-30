@@ -2,7 +2,7 @@ import express from 'express';
 import morgan from 'morgan';
 
 import { notFoundError, errorHandler } from './middleware/error.middleware.js';
-// import routes from './routes/index.routers.js';
+import routes from './routes/index.routes.js';
 
 const app = express();
 app.use(express.json());
@@ -12,9 +12,9 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 // Routes
-// app.use('/', routes);
+app.use('/', routes);
 
-app.get('/', (req, res) => {
+app.get('/api/v1', (req, res) => {
     res.send('API is running ...');
 });
 

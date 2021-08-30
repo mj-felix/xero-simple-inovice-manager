@@ -2,11 +2,11 @@
   "name": "xero-simple-invoice-manager",
   "version": "0.0.1",
   "description": "Programming task for position: Software Engineer - Work on the Xero product",
-  "main": "index.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "node backend/",
-    "server": "nodemon backend/",
+    "start": "node backend/server",
+    "server": "nodemon backend/server",
     "test": "mocha test/*.test.js"
   },
   "repository": {
