@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import util from 'util';
+import colors from 'colors';
 
 import { db } from '../database/connection.js';
 import Item from './item.model.js';
@@ -70,7 +71,17 @@ class Invoice {
     // node 14.16
     [util.inspect.custom](depth, opts) {
         // nice printout of invoice ;-)
-        let printedInvoice = '';
+        let printedInvoice = '\n-------------------------------------------------\n'.yellow;
+        printedInvoice += `Invoice Date:   ${this.invoiceDate.green}\n`;
+        printedInvoice += `Invoice Number: ${this.invoiceNumber.green}\n`;
+        printedInvoice += '-------------------------------------------------\n'.yellow;
+        printedInvoice += `${'Item'.padEnd(20, ' ')}${'Price'.padEnd(10, ' ')}Quantity\n`.cyan;
+        for (const item of this.items) {
+            printedInvoice += `${item.description.padEnd(20, ' ')}${item.price.toString().padEnd(10, ' ')}${item.quantity}\n`;
+        }
+        printedInvoice += '-------------------------------------------------\n'.yellow;
+        printedInvoice += `${'Total:'.padStart(36, ' ')} ${this.getTotalValue()}\n`.magenta.bold;
+        printedInvoice += '-------------------------------------------------\n\n'.yellow;
         return printedInvoice;
     };
 

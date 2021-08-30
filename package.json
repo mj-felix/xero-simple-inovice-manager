@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/mj-felix/xero-simple-inovice-manager#readme",
   "dependencies": {
+    "colors": "^1.4.0",
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
     "lowdb": "^2.1.0",

@@ -9,7 +9,6 @@ const checkInvoiceExists = asyncHandler(async (req, res, next) => {
     let existingInvoice;
 
     for (let invoiceId of invoiceIds) {
-        console.log(invoiceId);
         existingInvoice = await Invoice.findOne(invoiceId);
         if (!existingInvoice) {
             res.status(404);
