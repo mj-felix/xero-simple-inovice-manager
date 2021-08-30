@@ -1,14 +1,14 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import { db } from '../database/connection.js';
-import InvoiceLine from './line.model.js';
+import Item from './item.model.js';
 
 class Invoice {
-    constructor(invoiceDate = new Date(), invoiceNumber = "", lineItems = []) {
+    constructor(invoiceDate = new Date(), invoiceNumber = "", items = []) {
         this.invoiceDate = invoiceDate;
         this.invoiceNumber = invoiceNumber;
         this.uuid = uuidv4();
-        this.lineItems = lineItems.map((line) => (new InvoiceLine(line.cost, line.quantity, line.description)));
+        this.items = items.map((item) => (new Item(item.price, item.quantity, item.description)));
     }
 
     async save() {

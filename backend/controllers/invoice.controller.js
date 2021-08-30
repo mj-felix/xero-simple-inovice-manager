@@ -7,8 +7,8 @@ const fetchInvoices = asyncHandler(async (req, res) => {
 });
 
 const createInvoice = asyncHandler(async (req, res) => {
-    const { invoiceDate, invoiceNumber, lineItems } = req.body;
-    const newInvoice = new Invoice(invoiceDate, invoiceNumber, lineItems);
+    const { invoiceDate, invoiceNumber, items } = req.body;
+    const newInvoice = new Invoice(invoiceDate, invoiceNumber, items);
     await newInvoice.save();
     res.json(newInvoice);
 });
