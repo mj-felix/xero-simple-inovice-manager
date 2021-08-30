@@ -68,10 +68,10 @@ class Invoice {
     }
 
     // node 14.16
-    [util.inspect.custom](depth, opts) {
-        // nice printout of invoice
-        return '' + this.invoiceNumber;
-    };
+    // [util.inspect.custom](depth, opts) {
+    //     // nice printout of invoice
+    //     return '' + this.invoiceNumber;
+    // };
 
     getTotalValue() {
         return parseFloat(this.items.reduce((accumulator, item) => (accumulator + (item.price * item.quantity)), 0).toFixed(2));
@@ -94,14 +94,15 @@ class Invoice {
         return mergedInvoice;
     }
 
-    // Adds a line to invoice
-    addInvoiceLine(line) {
-        this.lineItems.push(line);
+    async addItem(item) {
+        this.items.push(item);
+        return await this.save();
     };
 
     // Removes a line
-    removeInvoiceLine(id) {
-        return null;
+    async removeItem(uuid) {
+        this.items = this.items.filter((item) => (item.uuid !== uuid));
+        return await this.save();
     };
 
 }

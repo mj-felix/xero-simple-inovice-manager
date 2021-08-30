@@ -4,5 +4,8 @@ export default {
     },
     invoice: {
         NOT_FOUND: 'Invoice not found'
+    },
+    item: {
+        NOT_FOUND: 'Item not found'
     }
 }

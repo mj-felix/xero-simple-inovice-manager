@@ -1,16 +1,14 @@
 import express from 'express';
 
 import itemsController from '../controllers/item.controller.js';
+import { checkItemExists } from '../middleware/item.middleware.js';
 
 const router = express.Router({ mergeParams: true });
 
 router.route('/')
-    .get(itemsController.fetchItems)
     .post(itemsController.createItem);
 
 router.route('/:itemId')
-    .get(itemsController.fetchItem)
-    .patch(itemsController.updateItem)
-    .delete(itemsController.deleteItem);
+    .delete(checkItemExists, itemsController.deleteItem);
 
 export default router;
