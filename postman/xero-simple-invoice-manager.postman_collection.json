@@ -1,0 +1,230 @@
+{
+	"info": {
+		"_postman_id": "14f23406-b858-42d3-a1a5-4fee68c77fe3",
+		"name": "xero-simple-invoice-manager",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "invoices",
+			"item": [
+				{
+					"name": "GET /invoices",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/v1/invoices",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"invoices"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /invoices",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"invoiceDate\": \"2021-10-12\",\n    \"invoiceNumber\": \"INV00004\",\n    \"items\": [\n        {\n            \"price\": 10.21,\n            \"quantity\": 8,\n            \"description\": \"Banana Chip\"\n        },\n        {\n            \"price\": 5.21,\n            \"quantity\": 6,\n            \"description\": \"Orange Apple\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/v1/invoices",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"invoices"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /invoices/:invoiceId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/v1/invoices/fc6a2c9c-b112-47f1-94be-bc4e76d788b1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"invoices",
+								"fc6a2c9c-b112-47f1-94be-bc4e76d788b1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /invoices/:invoiceId",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/v1/invoices/8443df70-72df-4e2d-bb2d-cb0630ff15e5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"invoices",
+								"8443df70-72df-4e2d-bb2d-cb0630ff15e5"
+							],
+							"query": [
+								{
+									"key": "overwrite",
+									"value": "true",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /invoices/:invoiceId",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"invoiceDate\": \"2021-10-12\",\n    \"invoiceNumber\": \"INV00007\",\n    \"items\": [\n        {\n            \"price\": 5.21,\n            \"quantity\": 6,\n            \"description\": \"Orange Pple\"\n        },\n        {\n            \"price\": 15.21,\n            \"quantity\": 56,\n            \"description\": \"Mango\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/v1/invoices/8443df70-72df-4e2d-bb2d-cb0630ff15e5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"invoices",
+								"8443df70-72df-4e2d-bb2d-cb0630ff15e5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /invoices/:invoiceId",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/v1/invoices/f8361b84-6c48-4d9b-a1f2-034c65957ecd",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"invoices",
+								"f8361b84-6c48-4d9b-a1f2-034c65957ecd"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "items",
+			"item": [
+				{
+					"name": "POST /invoices/:invoiceId/items",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"price\": 10.21,\n    \"quantity\": 12,\n    \"description\": \"Banana\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/v1/invoices/8443df70-72df-4e2d-bb2d-cb0630ff15e5/items",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"invoices",
+								"8443df70-72df-4e2d-bb2d-cb0630ff15e5",
+								"items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /invoices/:invoiceId/items/:itemId",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/v1/invoices/8443df70-72df-4e2d-bb2d-cb0630ff15e5/items/25e742f6-644d-4f1d-a245-5536e473b394",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"invoices",
+								"8443df70-72df-4e2d-bb2d-cb0630ff15e5",
+								"items",
+								"25e742f6-644d-4f1d-a245-5536e473b394"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
