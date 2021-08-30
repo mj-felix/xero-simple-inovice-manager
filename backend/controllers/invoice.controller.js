@@ -16,7 +16,7 @@ const createInvoice = asyncHandler(async (req, res) => {
 });
 
 const fetchInvoice = asyncHandler(async (req, res) => {
-    console.log('\n\nInvoice fethced:', req.invoice); // beautiful printout ;-)
+    console.log('\n\nInvoice fetched:', req.invoice); // beautiful printout ;-)
     res.json(req.invoice);
 });
 
