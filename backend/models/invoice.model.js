@@ -104,6 +104,23 @@ class Invoice {
     }
 
     /**
+    *  Creates a brand new copy of the invoice.
+    *
+    *  @returns {Invoice} Newly created Invoice object.
+    */
+    async cloneNonStatic() {
+        // return await Invoice.clone(this);
+        const clonedInvoice = new Invoice(
+            this.invoiceDate,
+            'Cloned: ' + this.invoiceNumber,
+            this.items.map((item) => (new Item(item.price, item.quantity, item.description)))
+        );
+        await clonedInvoice.save();
+        clonedInvoice.totalValue = clonedInvoice.getTotalValue();
+        return clonedInvoice;
+    }
+
+    /**
     *  Custom  [util.inspect.custom](depth, opts) function invoked by util.inspect().
     *
     *  @returns {string} String object.

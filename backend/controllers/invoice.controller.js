@@ -27,6 +27,7 @@ const cloneOrMergeInvoices = asyncHandler(async (req, res) => {
         res.status(201).json(mergedInvoice);
     } else {
         const newInvoice = await Invoice.clone(req.invoice);
+        // const newInvoice = await req.invoice.cloneNonStatic();
         console.log('\n\nInvoice cloned:', newInvoice); // beautiful printout ;-)
         res.status(201).json(newInvoice);
     }
