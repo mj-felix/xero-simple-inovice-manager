@@ -15,7 +15,7 @@ invoiceToString();
 ```
 have been reimplememented and tested to showcase basic concepts around JavaScript classes.
 
-**<font color='red'>This project requires Node v14.16.0 or higher.</font>**
+### ***This project requires Node v14.16.0 or higher.***
 
 ## Table of Contents
 
@@ -75,6 +75,7 @@ git clone https://github.com/mj-felix/xero-simple-inovice-manager.git
 ### Install Dependencies
 
 ```
+cd xero-simple-inovice-manager
 npm install
 ```
 
@@ -106,10 +107,10 @@ Some APIs have been documented using Swagger: [localhost:5000/api/v1/docs](http:
 
 1. Add user entity (user has many invoices, invoice can have only one user)
 2. Authentication - consider:
-   - Refresh token/Access token (as implmented in [TrackMyNotes by MJ Felix](https://github.com/mj-felix/track-my-notes))
-   - Auth0 (as implmented in [TrackMyReading by MJ Felix](https://github.com/mj-felix/track-my-reading))
+   - Refresh token/Access token (as implemented in [TrackMyNotes by MJ Felix](https://github.com/mj-felix/track-my-notes#minimum-setup))
+   - Auth0 (as implemented in [TrackMyReading by MJ Felix](https://github.com/mj-felix/track-my-reading#auth0))
    - Other ...
-3. Authorisation (e.g. given user don't have access to other users invoices and line items)
+3. Authorisation (e.g. given user don't have access to other users' invoices and line items)
 4. Confirm requirements for *merge invoice*:
    - destructive vs non-destructive
    - overwrite vs brand new copy
@@ -121,6 +122,7 @@ Some APIs have been documented using Swagger: [localhost:5000/api/v1/docs](http:
 8. Add more validations; especially for create and update invoice (see `*.rules.js` in [TrackMyReading by MJ Felix](https://github.com/mj-felix/track-my-reading/tree/main/backend/models))
 9. Implement Invoice.update with array of fields to be updated as a parameter
 10. PDF generation - considerations:
+    - how? ([PDFKit](https://pdfkit.org)?)
     - when to generate? expose endpoint?
     - return PDF/return link to PDF(+store it on invoice)/email PDF (if user's email is held)
     - where to store? (see integration with Amazon S3 in [TrackMyWarranties by MJ Felix](https://github.com/mj-felix/track-my-warranties#extended-setup) and [TrackMyNotes by MJ Felix](https://github.com/mj-felix/track-my-notes#extended-setup))
