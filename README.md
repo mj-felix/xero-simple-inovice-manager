@@ -134,7 +134,7 @@ Some APIs have been documented using Swagger: [localhost:5000/api/v1/docs](http:
     - CORS consideration ([npm CORS package](https://www.npmjs.com/package/cors))
 12. Allow to change invoice fields (date, number) while cloning or merging
 13. Consider different database ;-)
-14. Document source code ([JSDocs](https://jsdoc.app)?)
+14. Document source code ([JSDocs](https://jsdoc.app))
 
 ## Contact
 

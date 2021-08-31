@@ -6,6 +6,14 @@ import { db } from '../database/connection.js';
 import Item from './item.model.js';
 
 class Invoice {
+    /**
+     * Represents an Invoice.
+     * @constructor
+     * @param {Date} invoiceDate Invoice date.
+     * @param {string} invoiceNumber Invoice number.
+     * @param {Array.<Item>} items Array of (invoice) Item objects.
+     * @param {string} uuid Invoice identifier.
+     */
     constructor(invoiceDate = new Date().toISOString().substring(0, 10), invoiceNumber = "", items = [], uuid = uuidv4()) {
         this.invoiceDate = invoiceDate;
         this.invoiceNumber = invoiceNumber;
@@ -13,6 +21,11 @@ class Invoice {
         this.items = items.map((item) => (new Item(item.price, item.quantity, item.description, item.uuid)));
     }
 
+    /**
+     *  Saves amended or newly created invoice.
+     * 
+     *  @returns {Invoice} Updated or created Invoice object.
+     */
     async save() {
         const existingInvoice = db.data.invoices.filter((invoice) => (invoice.uuid === this.uuid));
         if (existingInvoice.length === 1) {
@@ -24,6 +37,11 @@ class Invoice {
         return Invoice.findOne(this.uuid);
     }
 
+    /**
+    *  Finds and returns all invoices
+    *
+    *  @returns {Array.<Invoice>} Array of Invoice objects.
+    */
     static async findAll() {
         // return db.data.invoices;
         const foundInvoices = db.data.invoices.map((invoice) => (new Invoice(
@@ -37,6 +55,12 @@ class Invoice {
         return foundInvoices;
     }
 
+    /**
+    *  Finds Invoice by id and returns it.
+    *
+    *  @param {string} uuid Invoice identifier.
+    *  @returns {Invoice} Invoice object.
+    */
     static async findOne(uuid) {
         const invoice = db.data.invoices.filter((invoice) => (invoice.uuid === uuid));
         if (invoice.length === 1) {
@@ -52,11 +76,22 @@ class Invoice {
         return null;
     }
 
+    /**
+    *  Finds Invoice by id and deletes it.
+    *
+    *  @param {string} uuid Invoice identifier.
+    */
     static async destroy(uuid) {
         db.data.invoices = db.data.invoices.filter((invoice) => (invoice.uuid !== uuid));
         await db.write();
     }
 
+    /**
+    *  Copies passed in Invoice into a brand new one.
+    *
+    *  @param {Invoice} existingInvoice Invoice object to clone.
+    *  @returns {Invoice} Newly created Invoice object.
+    */
     static async clone(existingInvoice) {
         const clonedInvoice = new Invoice(
             existingInvoice.invoiceDate,
@@ -68,7 +103,13 @@ class Invoice {
         return clonedInvoice;
     }
 
-    // node 14.16 - nice printout of invoice ;-)
+    /**
+    *  Custom  [util.inspect.custom](depth, opts) function invoked by util.inspect().
+    *
+    *  @returns {string} String object.
+    *  @description Result is used in console.log
+    *  @see {@link https://nodejs.org/api/util.html#util_custom_inspection_functions_on_objects}
+    */
     [util.inspect.custom](depth, opts) {
         let printedInvoice = '\n-------------------------------------------------\n'.yellow;
         printedInvoice += `Invoice Date:   ${this.invoiceDate.green}\n`;
@@ -84,11 +125,22 @@ class Invoice {
         return printedInvoice;
     };
 
+    /**
+    *  Calculates and returns total value of the items on the invoice.
+    *
+    *  @returns {number} Total value.
+    */
     getTotalValue() {
         return parseFloat(this.items.reduce((accumulator, item) => (accumulator + (item.price * item.quantity)), 0).toFixed(2));
     };
 
-    // if (overwrite) then invoices are merged into the first one and remaining ones are deleted - code should be refactored - only POC
+    /**
+    *  Merges passed in Invoices into a brand new one retianing the original ones or overwrites the first one removing the other ones.
+    *
+    *  @param {Array.<string>} uuids Array of Invoice identifiers.
+    *  @param {boolean} overwrite Overwrite flag. If overwrite is true then invoices are merged into the first one and remaining ones are deleted - code should be refactored - only POC.
+    *  @returns {Invoice} Newly created or updated Invoice object.
+    */
     static async merge(uuids, overwrite) {
         let invoiceNumber = 'Merged invoice numbers: ';
         let firstInvoice;
@@ -125,11 +177,23 @@ class Invoice {
         }
     }
 
+    /**
+    *  Adds invoice item to the Invoice.
+    *
+    *  @param {Item} item Invoice item object.
+    *  @returns {Invoice} Updated Invoice object.
+    */
     async addItem(item) {
         this.items.push(item);
         return await this.save();
     };
 
+    /**
+    *  Removes invoice item from the Invoice.
+    *
+    *  @param {string} uuid Item identfier.
+    *  @returns {Invoice} Updated Invoice object.
+    */
     async removeItem(uuid) {
         this.items = this.items.filter((item) => (item.uuid !== uuid));
         return await this.save();

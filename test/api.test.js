@@ -130,7 +130,7 @@ describe('Invoice operations (SELECTED ONLY)', () => {
 
     });
 
-    it("merges 2 invoices creating new one and reatining old ones", async () => {
+    it("merges 2 invoices creating new one and retaining old ones", async () => {
 
         // GIVEN: 
         let endpoint = `/invoices/${invoice1Id},${invoice2Id}`;
