@@ -64,7 +64,9 @@ APIs will be exposed at [localhost:5000/api/v1](http://localhost:5000/api/v1)
 
 ### Install Node
 
-Download installer from [the Node.js website](https://nodejs.org/en/download/) and follow the instructions.
+Download installer from [the Node.js website](https://nodejs.org/en/download/) and follow the instructions. 
+
+**Node version v14.16 or higher required.**
 
 ### Clone GitHub repository
 
