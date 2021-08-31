@@ -96,6 +96,8 @@ npm run dev
 # Test APIs (server needs to be running)
 npm test
 ```
+Test results:
+![API test results](/test/api-test-results.png)
 
 Test coverage is limited strictly to the [main functions of the original application](#xero-simple-inovice-manager).
 
