@@ -121,13 +121,11 @@ class Invoice {
     }
 
     /**
-    *  Custom  [util.inspect.custom](depth, opts) function invoked by util.inspect().
+    *  Returns string representation of the Invoice.
     *
     *  @returns {string} String object.
-    *  @description Result is used in console.log
-    *  @see {@link https://nodejs.org/api/util.html#util_custom_inspection_functions_on_objects}
     */
-    [util.inspect.custom](depth, opts) {
+    toString() {
         let printedInvoice = '\n-------------------------------------------------\n'.yellow;
         printedInvoice += `Invoice Date:   ${this.invoiceDate.green}\n`;
         printedInvoice += `Invoice Number: ${this.invoiceNumber.green}\n`;
@@ -140,6 +138,17 @@ class Invoice {
         printedInvoice += `${'Total:'.padStart(36, ' ')} ${this.getTotalValue()}\n`.magenta.bold;
         printedInvoice += '-------------------------------------------------\n\n'.yellow;
         return printedInvoice;
+    }
+
+    /**
+    *  Custom [util.inspect.custom](depth, opts) function invoked by util.inspect().
+    *
+    *  @returns {string} String object.
+    *  @description Result is used in console.log
+    *  @see {@link https://nodejs.org/api/util.html#util_custom_inspection_functions_on_objects}
+    */
+    [util.inspect.custom](depth, opts) {
+        return this.toString();
     };
 
     /**
