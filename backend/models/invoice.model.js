@@ -132,7 +132,8 @@ class Invoice {
         printedInvoice += '-------------------------------------------------\n'.yellow;
         printedInvoice += `${'Item'.padEnd(20, ' ')}${'Price'.padEnd(10, ' ')}Quantity\n`.cyan;
         for (const item of this.items) {
-            printedInvoice += `${item.description.padEnd(20, ' ')}${item.price.toString().padEnd(10, ' ')}${item.quantity}\n`;
+            // printedInvoice += `${item.description.padEnd(20, ' ')}${item.price.toString().padEnd(10, ' ')}${item.quantity}\n`;
+            printedInvoice += item.toString();
         }
         printedInvoice += '-------------------------------------------------\n'.yellow;
         printedInvoice += `${'Total:'.padStart(36, ' ')} ${this.getTotalValue()}\n`.magenta.bold;

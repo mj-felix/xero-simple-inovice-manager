@@ -8,6 +8,10 @@ class Item {
         this.description = description;
     }
 
+    toString() {
+        return `${this.description.padEnd(20, ' ')}${this.price.toString().padEnd(10, ' ')}${this.quantity}\n`;
+    }
+
 }
 
 export default Item;
