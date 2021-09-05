@@ -231,6 +231,26 @@ describe('Items operations', () => {
 
     });
 
+    it("fails to add item without price, quantity and description (example of negative test case)", async () => {
+
+        // GIVEN: 
+        const endpoint = `/invoices/${invoice1Id}/items`;
+        const payload = {};
+
+        // WHEN:
+        const response = await request
+            .post(endpoint)
+            .send(payload);
+
+        // THEN:
+        expect(response.status).to.eql(422);
+        expect(response.body.errors.length).to.eql(3);
+        expect(response.body.errors[0].price).to.eql(errors.item.PRICE_POSITIVE_NUMBER);
+        expect(response.body.errors[1].quantity).to.eql(errors.item.QUANTITY_POSITIVE_INTEGER);
+        expect(response.body.errors[2].description).to.eql(errors.item.DESC_REQUIRED);
+
+    });
+
     it("removes item", async () => {
 
         // GIVEN: 
