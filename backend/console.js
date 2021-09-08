@@ -35,6 +35,53 @@ class ConsoleApp {
         else console.log(invoice);
     }
 
+    async sort(field, order) {
+        const allInvoices = await Invoice.findAll();
+        console.log('\nNumber of invoices found: ' + allInvoices.length);
+        console.log('Value of invoices found: ' + await Invoice.getTotal());
+
+        if (field === 'date' && order === 'asc') {
+            allInvoices.sort((a, b) => (new Date(a.invoiceDate) - new Date(b.invoiceDate)));
+
+        } else if (field === 'date' && order === 'desc') {
+            allInvoices.sort((a, b) => (new Date(b.invoiceDate) - new Date(a.invoiceDate)));
+        } else if (field === 'number' && order === 'asc') {
+            allInvoices.sort(this.sortInvoicesByNumberAsc);
+        } else {
+            allInvoices.sort(this.sortInvoicesByNumberDesc);
+        }
+        console.log('\nInvoices sorted by', field, order);
+
+        for (let invoice of allInvoices) {
+            console.log(invoice);
+        }
+
+    }
+
+    sortInvoicesByNumberAsc = (a, b) => {
+        const numA = a.invoiceNumber.toLowerCase();
+        const numB = b.invoiceNumber.toLowerCase();
+        if (numA < numB) {
+            return -1;
+        }
+        if (numA > numB) {
+            return 1;
+        }
+        return 0;
+    };
+
+    sortInvoicesByNumberDesc = (a, b) => {
+        const numA = a.invoiceNumber.toLowerCase();
+        const numB = b.invoiceNumber.toLowerCase();
+        if (numA < numB) {
+            return 1;
+        }
+        if (numA > numB) {
+            return -1;
+        }
+        return 0;
+    };
+
     run() {
         this.printOptions();
 
@@ -51,18 +98,25 @@ class ConsoleApp {
                 await db.read();
                 switch (command) {
                     case 'print':
-                        if (lineArr[1]) {
-                            await this.printOne(lineArr[1]);
+                        const invoiceNumber = lineArr[1];
+                        if (invoiceNumber) {
+                            await this.printOne(invoiceNumber);
                         } else {
                             await this.printAll();
                         }
+                        break;
+                    case 'sort':
+                        let field = lineArr[1];
+                        if (field !== 'date' && field !== 'number') field = 'date';
+                        let order = lineArr[2];
+                        if (order !== 'asc' && order !== 'desc') order = 'asc';
+                        await this.sort(field, order);
                         break;
                     case 'q':
                         console.log('Closing ...');
                         rl.close();
                     default:
                         console.log('Option unknown ...');
-                        break;
                 }
             } catch (e) { console.log(e); }
             finally {
