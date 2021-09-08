@@ -7,6 +7,8 @@
   "scripts": {
     "start": "node backend/server",
     "dev": "nodemon backend/server --ignore 'db.json'",
+    "console": "node backend/console",
+    "dev-console": "nodemon backend/console --ignore 'db.json'",
     "test": "mocha test/*.test.js"
   },
   "repository": {
