@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler';
 
 import Invoice from '../models/invoice.model.js';
+import errors from '../messages/error.messages.js';
 
 const fetchInvoices = asyncHandler(async (req, res) => {
     const invoices = await Invoice.findAll();
@@ -9,6 +10,10 @@ const fetchInvoices = asyncHandler(async (req, res) => {
 
 const createInvoice = asyncHandler(async (req, res) => {
     const { invoiceDate, invoiceNumber, items } = req.body;
+    if (await Invoice.invoiceNumberExists(invoiceNumber)) {
+        res.status(409);
+        throw new Error(errors.invoice.INVOICE_NUMBER_EXISTS);
+    }
     const newInvoice = new Invoice(invoiceDate, invoiceNumber, items);
     const createdInvoice = await newInvoice.save();
     console.log('\n\nInvoice created:', createdInvoice); // beautiful printout ;-)
@@ -36,6 +41,10 @@ const cloneOrMergeInvoices = asyncHandler(async (req, res) => {
 const updateInvoice = asyncHandler(async (req, res) => {
     const invoiceToUpdate = req.invoice;
     const { invoiceDate, invoiceNumber, items } = req.body;
+    if (await Invoice.invoiceNumberExists(invoiceNumber, invoiceToUpdate.uuid)) {
+        res.status(409);
+        throw new Error(errors.invoice.INVOICE_NUMBER_EXISTS);
+    }
     invoiceToUpdate.invoiceDate = invoiceDate;
     invoiceToUpdate.invoiceNumber = invoiceNumber;
     invoiceToUpdate.items = items;

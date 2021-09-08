@@ -3,7 +3,8 @@ export default {
         NOT_FOUND: 'Resource not found',
     },
     invoice: {
-        NOT_FOUND: 'Invoice not found'
+        NOT_FOUND: 'Invoice not found',
+        INVOICE_NUMBER_EXISTS: 'Invoice number already exists'
     },
     item: {
         NOT_FOUND: 'Item not found',

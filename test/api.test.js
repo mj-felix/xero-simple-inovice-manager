@@ -1,5 +1,6 @@
 import supertest from 'supertest';
 import { expect } from 'chai';
+import { v4 as uuidv4 } from 'uuid';
 
 import errors from '../backend/messages/error.messages.js';
 
@@ -9,7 +10,7 @@ const request = supertest('http://localhost:5000/api/v1');
 // data setup = GLOBAL GIVEN:
 const invoice1 = {
     "invoiceDate": "2021-10-12",
-    "invoiceNumber": "INV01",
+    "invoiceNumber": "INV" + uuidv4(),
     "items": [
         {
             "price": 3.21,
@@ -21,7 +22,7 @@ const invoice1 = {
 
 const invoice2 = {
     "invoiceDate": "2021-10-12",
-    "invoiceNumber": "INV02",
+    "invoiceNumber": "INV" + uuidv4(),
     "items": [
         {
             "price": 10.21,
@@ -180,7 +181,7 @@ describe('Invoice operations (SELECTED ONLY)', () => {
         expect(response.status).to.eql(201);
         expect(response.body).to.include.all.keys('invoiceDate', 'invoiceNumber', 'items', 'uuid', 'totalValue');
         expect(response.body.invoiceDate).to.eql(invoice2.invoiceDate);
-        expect(response.body.invoiceNumber).to.eql('INV02 (Merged invoice numbers: INV02 Cloned: INV02)');
+        expect(response.body.invoiceNumber).to.eql(`${invoice2.invoiceNumber} (Merged invoice numbers: ${invoice2.invoiceNumber} Cloned: ${invoice2.invoiceNumber})`);
         expect(response.body.totalValue).to.eql(parseFloat((10.21 * 8 + 5.21 * 6 + 10.21 * 8 + 5.21 * 6).toFixed(2)));
         expect(response.body.items.length).to.eql(4);
 

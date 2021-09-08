@@ -28,6 +28,7 @@ class Invoice {
      */
     async save() {
         const existingInvoice = db.data.invoices.filter((invoice) => (invoice.uuid === this.uuid));
+
         if (existingInvoice.length === 1) {
             db.data.invoices = db.data.invoices.map((invoice) => (invoice.uuid === this.uuid ? new Invoice(this.invoiceDate, this.invoiceNumber, this.items, this.uuid) : invoice));
         } else {
@@ -229,6 +230,16 @@ class Invoice {
     static async getTotal() {
         const invoices = await Invoice.findAll();
         return parseFloat(invoices.reduce((accumulator, invoice) => (accumulator + invoice.getTotalValue()), 0).toFixed(2));
+    }
+
+    static async invoiceNumberExists(invoiceNumber, invoiceId) {
+        const invoices = await Invoice.findAll();
+
+        for (let invoice of invoices) {
+            if (invoice.invoiceNumber === invoiceNumber && (invoiceId ? invoice.uuid !== invoiceId : true)) return true;
+        }
+
+        return false;
     }
 
 }
