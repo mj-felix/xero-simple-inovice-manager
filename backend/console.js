@@ -7,7 +7,8 @@ class ConsoleApp {
 
     constructor() {
         this.options = [
-            'printall - prints all invoices',
+            'print - prints all invoices',
+            'print INVOICE_NUMBER - prints invoice with INVOICE_NUMBER',
             'q - quits program'
         ];
     }
@@ -21,7 +22,8 @@ class ConsoleApp {
 
     async printAll() {
         const allInvoices = await Invoice.findAll();
-        console.log('Number of invoices found: ' + allInvoices.length);
+        console.log('\nNumber of invoices found: ' + allInvoices.length);
+        console.log('Value of invoices found: ' + await Invoice.getTotal());
         for (let invoice of allInvoices) {
             console.log(invoice);
         }
@@ -40,7 +42,7 @@ class ConsoleApp {
             try {
                 await db.read();
                 switch (line.trim()) {
-                    case 'printall':
+                    case 'print':
                         await this.printAll();
                         break;
                     case 'q':

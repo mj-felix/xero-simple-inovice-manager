@@ -226,6 +226,11 @@ class Invoice {
         return await this.save();
     };
 
+    static async getTotal() {
+        const invoices = await Invoice.findAll();
+        return parseFloat(invoices.reduce((accumulator, invoice) => (accumulator + invoice.getTotalValue()), 0).toFixed(2));
+    }
+
 }
 
 export default Invoice;
