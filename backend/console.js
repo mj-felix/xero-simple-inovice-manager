@@ -9,6 +9,7 @@ class ConsoleApp {
         this.options = [
             'print - prints all invoices',
             'print INVOICE_NUMBER - prints invoice with INVOICE_NUMBER',
+            'sort date|number asc|desc - prints ordered invoices',
             'q - quits program'
         ];
     }
@@ -82,6 +83,20 @@ class ConsoleApp {
         return 0;
     };
 
+    async merge(invoiceNumber1, invoiceNumber2) {
+        const invoice1 = await Invoice.findByInvoiceNumber(invoiceNumber1);
+        const invoice2 = await Invoice.findByInvoiceNumber(invoiceNumber2);
+
+        if (!invoice1 || !invoice2) {
+            console.log('At least one invoice not found.');
+            return;
+        }
+
+        const mergedInvoice = await (await invoice1.smartMerge(invoice2)).save();
+        console.log(mergedInvoice);
+
+    }
+
     run() {
         this.printOptions();
 
@@ -111,6 +126,11 @@ class ConsoleApp {
                         let order = lineArr[2];
                         if (order !== 'asc' && order !== 'desc') order = 'asc';
                         await this.sort(field, order);
+                        break;
+                    case 'merge':
+                        const invoiceNumber1 = lineArr[1];
+                        const invoiceNumber2 = lineArr[2];
+                        await this.merge(invoiceNumber1, invoiceNumber2);
                         break;
                     case 'q':
                         console.log('Closing ...');

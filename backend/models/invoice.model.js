@@ -29,13 +29,13 @@ class Invoice {
     async save() {
         const existingInvoice = db.data.invoices.filter((invoice) => (invoice.uuid === this.uuid));
 
-        if (existingInvoice.length === 1) {
+        if (existingInvoice && existingInvoice.length === 1) {
             db.data.invoices = db.data.invoices.map((invoice) => (invoice.uuid === this.uuid ? new Invoice(this.invoiceDate, this.invoiceNumber, this.items, this.uuid) : invoice));
         } else {
             db.data.invoices.push(this);
         }
         await db.write();
-        return Invoice.findOne(this.uuid);
+        return await Invoice.findOne(this.uuid);
     }
 
     /**
@@ -257,6 +257,30 @@ class Invoice {
         }
         return null;
 
+    }
+
+    itemExist(item) {
+        const { description, price } = item;
+        for (let item of this.items) {
+            if (item.price === price && item.description === description) {
+                return item;
+            }
+        }
+        return false;
+    }
+
+    async smartMerge(invoice) {
+        const itemsToCopy = invoice.items;
+        for (let item of itemsToCopy) {
+            const existingItem = await this.itemExist(item);
+            if (existingItem) {
+                existingItem.quantity = existingItem.quantity + item.quantity;
+            } else {
+                this.items.push(new Item(item.price, item.quantity, item.description));
+            }
+        }
+        // await this.save();
+        return this;
     }
 
 }
