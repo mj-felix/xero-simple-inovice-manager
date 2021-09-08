@@ -9,7 +9,7 @@ class Invoice {
     /**
      * Represents an Invoice.
      * @constructor
-     * @param {Date} invoiceDate Invoice date.
+     * @param {string} invoiceDate Invoice date.
      * @param {string} invoiceNumber Invoice number.
      * @param {Array.<Item>} items Array of (invoice) Item objects.
      * @param {string} uuid Invoice identifier.
