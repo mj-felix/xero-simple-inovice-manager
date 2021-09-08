@@ -242,6 +242,23 @@ class Invoice {
         return false;
     }
 
+    static async findByInvoiceNumber(invoiceNumber) {
+
+        const invoice = db.data.invoices.filter((invoice) => (invoice.invoiceNumber === invoiceNumber));
+        if (invoice.length === 1) {
+            const foundInvoice = new Invoice(
+                invoice[0].invoiceDate,
+                invoice[0].invoiceNumber,
+                // invoice[0].items,
+                invoice[0].items.map((item) => (new Item(item.price, item.quantity, item.description, item.uuid))),
+                invoice[0].uuid);
+            foundInvoice.totalValue = foundInvoice.getTotalValue();
+            return foundInvoice;
+        }
+        return null;
+
+    }
+
 }
 
 export default Invoice;

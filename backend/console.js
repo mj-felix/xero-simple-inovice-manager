@@ -1,6 +1,6 @@
 import readline from 'readline';
 
-import { db, connect } from './database/connection.js';
+import { db } from './database/connection.js';
 import Invoice from './models/invoice.model.js';
 
 class ConsoleApp {
@@ -14,7 +14,7 @@ class ConsoleApp {
     }
 
     printOptions() {
-        console.log('Available options:');
+        console.log('\nAvailable options:');
         for (let option of this.options) {
             console.log(option);
         }
@@ -27,7 +27,12 @@ class ConsoleApp {
         for (let invoice of allInvoices) {
             console.log(invoice);
         }
+    }
 
+    async printOne(invoiceNumber) {
+        const invoice = await Invoice.findByInvoiceNumber(invoiceNumber);
+        if (!invoice) console.log('\nInvoice not found');
+        else console.log(invoice);
     }
 
     run() {
@@ -39,11 +44,18 @@ class ConsoleApp {
         rl.prompt();
 
         rl.on('line', async (line) => {
+            const trimmedLine = line.trim();
+            const lineArr = trimmedLine.split(' ');
+            const command = lineArr[0];
             try {
                 await db.read();
-                switch (line.trim()) {
+                switch (command) {
                     case 'print':
-                        await this.printAll();
+                        if (lineArr[1]) {
+                            await this.printOne(lineArr[1]);
+                        } else {
+                            await this.printAll();
+                        }
                         break;
                     case 'q':
                         console.log('Closing ...');
