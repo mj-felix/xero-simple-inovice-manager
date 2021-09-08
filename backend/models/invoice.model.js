@@ -27,7 +27,7 @@ class Invoice {
      *  @returns {Invoice} Updated or created Invoice object.
      */
     async save() {
-        const existingInvoice = db.data.invoices.filter((invoice) => (invoice.uuid === this.uuid));
+        const existingInvoice = db.data && db.data.invoices.filter((invoice) => (invoice.uuid === this.uuid));
 
         if (existingInvoice && existingInvoice.length === 1) {
             db.data.invoices = db.data.invoices.map((invoice) => (invoice.uuid === this.uuid ? new Invoice(this.invoiceDate, this.invoiceNumber, this.items, this.uuid) : invoice));
@@ -279,8 +279,8 @@ class Invoice {
                 this.items.push(new Item(item.price, item.quantity, item.description));
             }
         }
-        // await this.save();
-        return this;
+
+        return await this.save();
     }
 
 }

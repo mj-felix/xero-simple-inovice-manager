@@ -92,7 +92,7 @@ class ConsoleApp {
             return;
         }
 
-        const mergedInvoice = await (await invoice1.smartMerge(invoice2)).save();
+        const mergedInvoice = await invoice1.smartMerge(invoice2);
         console.log(mergedInvoice);
 
     }
