@@ -37,6 +37,8 @@ Xero Simple Inovice Manager is an API app that allows you to manage your invoice
 
 ## Scope of Functionalities
 
+### APIs
+
  - Add invoice (with or without line items)
  - Fetch all invoices
  - Fetch particular invoice
@@ -46,6 +48,13 @@ Xero Simple Inovice Manager is an API app that allows you to manage your invoice
  - Merge invoices
  - Add line items to particular invoice
  - Remove line items from particular invoice
+
+### Console App (POC only)
+
+ - Print all invoices
+ - Print invoice by invoice number
+ - Print sorted invoices by invoice date | invoice number asc | desc
+ - Merge 2 invoices (1st invoice amended to include invoice items from 2nd invoice - algorithm looks at name and price of the original items to either increase the quantity or add new item)
 
 ## Technologies/Components
 
@@ -81,7 +90,7 @@ cd xero-simple-inovice-manager
 npm install
 ```
 
-### Run Application
+### Run API app
 
 ```
 # Run APIs (without nodemon)
@@ -90,16 +99,28 @@ npm start
 # Run APIs (with nodemon)
 npm run dev
 ```
+
+### Run console app 
+
+```
+# Run console app (without nodemon)
+npm run console
+
+# Run console app (with nodemon)
+npm run dev-console
+```
+
 ## Test APIs
 
 ```
 # Test APIs (server needs to be running)
 npm test
 ```
+
 Test results:
 ![API test results](/test/api-test-results.png)
 
-Test coverage is limited strictly to the [main functions of the original application](#xero-simple-inovice-manager).
+Test coverage is limited strictly to the [main functions of the original application](#xero-simple-inovice-manager). There is one POC test added for console app.
 
 ## API Specification
 

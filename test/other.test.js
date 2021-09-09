@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import Invoice from '../backend/models/invoice.model.js';
 import { connect } from '../backend/database/connection.js';
 
-describe('Merge invoices', () => {
+describe('POC console app', () => {
 
     it('smart merges items', async () => {
 

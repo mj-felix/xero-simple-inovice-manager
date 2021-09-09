@@ -259,7 +259,7 @@ class Invoice {
 
     }
 
-    itemExist(item) {
+    itemExists(item) {
         const { description, price } = item;
         for (let item of this.items) {
             if (item.price === price && item.description === description) {
@@ -272,7 +272,7 @@ class Invoice {
     async smartMerge(invoice) {
         const itemsToCopy = invoice.items;
         for (let item of itemsToCopy) {
-            const existingItem = await this.itemExist(item);
+            const existingItem = await this.itemExists(item);
             if (existingItem) {
                 existingItem.quantity = existingItem.quantity + item.quantity;
             } else {
