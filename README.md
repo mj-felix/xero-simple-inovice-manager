@@ -160,6 +160,6 @@ Some APIs have been documented using Swagger: [localhost:5000/api/v1/docs](http:
 ## Contact
 
 MJ Felix<br>
-[mjfelix.dev](https://mjfelix.dev)<br>
+<!--[mjfelix.dev](https://mjfelix.dev)<br>-->
 mjfelixdev@gmail.com<br>
 [linkedin.com/in/mszonline](https://www.linkedin.com/in/mjfelix/) ![Linkedin Profile](https://i.stack.imgur.com/gVE0j.png)
